@@ -57,12 +57,14 @@ int main(int argc, char** argv) {
     srand((unsigned)time(NULL));
     while (1) {
         strcpy(buffer, "<event name=\"event");
-        sprintf(eventNum, "%d", getEventNum());
+        int eventNumInt = getEventNum();
+        sprintf(eventNum, "%d", eventNumInt);
         strcat(buffer, eventNum);
         strcat(buffer, "\" value=\"x = ");
         sprintf(valueNum, "%d", getValueNum());
         strcat(buffer, valueNum);
         strcat(buffer, "\"/>");
+        if (eventNumInt < 0) continue;  // 模拟事件丢失
         if (send(clientSocket, buffer, strlen(buffer), 0) < 0) {
             printf("Send message %s failed!", buffer);
             break;
@@ -90,22 +92,23 @@ int main(int argc, char** argv) {
 
 int getEventNum() {
     static int eventNum = -1;
-    static double p = 0.5;  // 异常的概率
+    static double p = 0.2;  // 异常的概率
 
     eventNum++;
     if (rand() > RAND_MAX * (1 - p)) {
-        return rand() % 10 + 1;  // 返回一个异常的事件编号
+//        return rand() % 10 + 1;  // 返回一个异常的事件编号
+        return -1;
     }
     else return eventNum % 10 + 1;
 }
 
 int getValueNum() {
     static int valueNum = -1;
-    static double p = 0.5;
+    static double p = 0.2;
 
     valueNum++;
     if (rand() > RAND_MAX * (1 - p)) {
-        return rand() % 100 + 1;
+        return rand();  // 模拟事件篡改
     }
     else return valueNum % 100 + 1;
 }

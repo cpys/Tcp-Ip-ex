@@ -60,6 +60,7 @@ int main(int argc, char** argv) {
             break;
         }
         for (int i = 0; i < index; i++) printf("%c", alphabet[i]);
+        printf("\n");
         sleep(1);
     }
 

@@ -89,21 +89,25 @@ int main(int argc, char** argv) {
 }
 
 int getEventNum() {
-    static int eventNum = 1;
+    static int eventNum = 0;
     static double p = 0.1;  // 异常的概率
+
+    eventNum++;
     if (rand() > RAND_MAX * (1 - p)) {
-        return rand() % 1000;  // 返回一个异常的事件编号
+        return rand() % 10 + 1;  // 返回一个异常的事件编号
     }
-    else return eventNum++;
+    else return eventNum % 10 + 1;
 }
 
 int getValueNum() {
-    static int valueNum = 100;
+    static int valueNum = 0;
     static double p = 0.1;
+
+    valueNum++;
     if (rand() > RAND_MAX * (1 - p)) {
-        return rand() % 1000;
+        return rand() % 100 + 1;
     }
-    else return valueNum++;
+    else return valueNum % 100 + 1;
 }
 
 void quit(int signum) {

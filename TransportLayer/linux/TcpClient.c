@@ -19,7 +19,7 @@
 #include <time.h>
 
 #define SERVER_PORT 5555
-#define SERVER_IP "127.0.0.1"
+#define SERVER_IP "10.109.253.29"
 #define SEND_TIMES 100000
 #define MAX_BUFFER_SIZE
 
@@ -29,7 +29,7 @@ char buffer[MAX_BUFFER_SIZE];
 
 void quit(int);
 
-int main() {
+int main(int argc, char** argv) {
 
     // 创建TCP客户端套接字
     if ((clientSocket = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
@@ -59,6 +59,7 @@ int main() {
             perror("Send message failed!");
             break;
         }
+        for (int i = 0; i < index; i++) printf("%c", alphabet[i]);
         sleep(1);
     }
 

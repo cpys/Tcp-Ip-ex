@@ -60,7 +60,7 @@ int main(int argc, char** argv) {
         strcat(buffer, itoa(getValueNum()));
         strcat(buffer, "\"/>");
         if (send(clientSocket, buffer, strlen(buffer), 0) < 0) {
-            perror("Send message %s failed!", buffer);
+            printf("Send message %s failed!", buffer);
             break;
         }
         printf("%s\n", buffer);

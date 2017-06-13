@@ -25,6 +25,8 @@
 int clientSocket;
 struct sockaddr_in serverAddr;
 char buffer[MAX_BUFFER_SIZE];
+char eventNum[20];
+char valueNum[20];
 
 int getEventNum();
 int getValueNum();
@@ -55,9 +57,11 @@ int main(int argc, char** argv) {
     srand((unsigned)time(NULL));
     while (1) {
         strcpy(buffer, "<event name=\"event");
-        strcat(buffer, itoa(getEventNum()));
+        sprintf(eventNum, "%d", getEventNum());
+        strcat(buffer, eventNum);
         strcat(buffer, "\" value=\"x = ");
-        strcat(buffer, itoa(getValueNum()));
+        sprintf(valueNum, "%d", getValueNum());
+        strcat(buffer, valueNum);
         strcat(buffer, "\"/>");
         if (send(clientSocket, buffer, strlen(buffer), 0) < 0) {
             printf("Send message %s failed!", buffer);

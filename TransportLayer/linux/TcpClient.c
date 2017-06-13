@@ -20,13 +20,14 @@
 
 #define SERVER_PORT 5555
 #define SERVER_IP "10.109.253.29"
-#define SEND_TIMES 100000
-#define MAX_BUFFER_SIZE
+#define MAX_BUFFER_SIZE 100
 
 int clientSocket;
 struct sockaddr_in serverAddr;
 char buffer[MAX_BUFFER_SIZE];
 
+int getEventNum();
+int getValueNum();
 void quit(int);
 
 int main(int argc, char** argv) {
@@ -51,21 +52,54 @@ int main(int argc, char** argv) {
         return -1;
     }
 
-    char* alphabet = "abcdefghijklmnopqrstuvwxyz";
-    int index = 0;
-    for (int i = 0; i < SEND_TIMES; i++) {
-        index = i % 26 + 1;
-        if (send(clientSocket, alphabet, index, 0) < 0) {
-            perror("Send message failed!");
+    srand((unsigned)time(NULL));
+    while (1) {
+        strcpy(buffer, "<event name=\"event");
+        strcat(buffer, itoa(getEventNum()));
+        strcat(buffer, "\" value=\"x = ");
+        strcat(buffer, itoa(getValueNum()));
+        strcat(buffer, "\"/>");
+        if (send(clientSocket, buffer, strlen(buffer), 0) < 0) {
+            perror("Send message %s failed!", buffer);
             break;
         }
-        for (int i = 0; i < index; i++) printf("%c", alphabet[i]);
-        printf("\n");
+        printf("%s\n", buffer);
         sleep(1);
     }
 
+//    char* alphabet = "abcdefghijklmnopqrstuvwxyz";
+//    int index = 0;
+//    for (int i = 0; i < SEND_TIMES; i++) {
+//        index = i % 26 + 1;
+//        if (send(clientSocket, alphabet, index, 0) < 0) {
+//            perror("Send message failed!");
+//            break;
+//        }
+//        for (int i = 0; i < index; i++) printf("%c", alphabet[i]);
+//        printf("\n");
+//        sleep(1);
+//    }
+
     close(clientSocket);
     return 0;
+}
+
+int getEventNum() {
+    static int eventNum = 1;
+    static double p = 0.1;  // 异常的概率
+    if (rand() > RAND_MAX * (1 - p)) {
+        return rand() % 1000;  // 返回一个异常的事件编号
+    }
+    else return eventNum++;
+}
+
+int getValueNum() {
+    static int valueNum = 100;
+    static double p = 0.1;
+    if (rand() > RAND_MAX * (1 - p)) {
+        return rand() % 1000;
+    }
+    else return valueNum++;
 }
 
 void quit(int signum) {

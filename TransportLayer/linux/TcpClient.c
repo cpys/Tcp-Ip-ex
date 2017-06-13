@@ -89,8 +89,8 @@ int main(int argc, char** argv) {
 }
 
 int getEventNum() {
-    static int eventNum = 0;
-    static double p = 0.1;  // 异常的概率
+    static int eventNum = -1;
+    static double p = 0.5;  // 异常的概率
 
     eventNum++;
     if (rand() > RAND_MAX * (1 - p)) {
@@ -100,8 +100,8 @@ int getEventNum() {
 }
 
 int getValueNum() {
-    static int valueNum = 0;
-    static double p = 0.1;
+    static int valueNum = -1;
+    static double p = 0.5;
 
     valueNum++;
     if (rand() > RAND_MAX * (1 - p)) {

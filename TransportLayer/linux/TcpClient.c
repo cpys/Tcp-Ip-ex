@@ -99,7 +99,7 @@ int getEventNum() {
 //        return rand() % 10 + 1;  // 返回一个异常的事件编号
         return -1;
     }
-    else return eventNum % 10 + 1;
+    else return eventNum % 5 + 1;
 }
 
 int getValueNum() {

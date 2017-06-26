@@ -60,7 +60,8 @@ int main(int argc, char** argv) {
     srand((unsigned)time(NULL));
     while (1) {
         strcpy(buffer, "<event name=\"");
-        char* eventNumInt = getEventName();
+        char* eventName = getEventName();
+        strcat(buffer, eventName);
         strcat(buffer, "\" value=\"x = ");
         sprintf(valueNum, "%d", getValueNum());
         strcat(buffer, valueNum);

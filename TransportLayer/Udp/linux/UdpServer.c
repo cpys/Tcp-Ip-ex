@@ -37,6 +37,10 @@ int main() {
 
     signal(SIGINT, quit);
 
+    // 设置套接字复用
+    unsigned int value = 0x1;
+    setsockopt(serverSocket, SOL_SOCKET, SO_REUSEADDR, (void *) &value, sizeof(value));
+
     // 设置服务端地址
     bzero(&serverAddr, sizeof(serverAddr));   // 清空
     serverAddr.sin_family = AF_INET;       // 协议簇

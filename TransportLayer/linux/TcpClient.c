@@ -19,7 +19,7 @@
 #include <time.h>
 
 #define SERVER_PORT 5555
-#define SERVER_IP "10.109.253.29"
+#define SERVER_IP "10.205.41.52"
 #define MAX_BUFFER_SIZE 100
 
 int clientSocket;

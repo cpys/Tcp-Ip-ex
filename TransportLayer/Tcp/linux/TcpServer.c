@@ -98,10 +98,6 @@ int main() {
                 break;
             } else {
                 printf("%d:%s\n", ++count, buffer);
-//            if (send(clientSocket, buffer, MAX_BUFFER_SIZE, 0) < 0) {
-//                printf("Send message failed:%s\n", strerror(errno));
-//                break;
-//            }
             }
         }
     }

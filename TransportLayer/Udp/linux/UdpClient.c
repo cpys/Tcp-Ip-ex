@@ -20,7 +20,7 @@
 
 #define SERVER_PORT 5556
 //#define SERVER_IP "10.205.41.52"
-char SERVER_IP[20] = "10.205.41.52";
+char SERVER_IP[20] = "10.205.41.48";
 #define MAX_BUFFER_SIZE 100
 
 int clientSocket;
@@ -30,6 +30,7 @@ char eventNum[20];
 char valueNum[20];
 
 char* getEventName();
+char *getEventImportant();
 int getValueNum();
 void quit(int);
 
@@ -59,13 +60,18 @@ int main(int argc, char** argv) {
 
     srand((unsigned)time(NULL));
     while (1) {
-        strcpy(buffer, "<event name=\"");
+        strcpy(buffer, "<xml type=\"event\" name=\"");
         char* eventName = getEventName();
         strcat(buffer, eventName);
-        strcat(buffer, "\" value=\"x = ");
+        strcat(buffer, "\" ");
+        char *eventImportant = getEventImportant();
+        strcat(buffer, eventImportant);
+        strcat(buffer, "><x>");
         sprintf(valueNum, "%d", getValueNum());
         strcat(buffer, valueNum);
-        strcat(buffer, "\"/>");
+        strcat(buffer, "</x>");
+        strcat(buffer, "</xml>");
+
 //        if (eventNumInt < 0) continue;  // 模拟事件丢失
         if (sendto(clientSocket, buffer, strlen(buffer), 0, (struct sockaddr*)&serverAddr, sizeof(serverAddr)) < 0) {
             printf("Send message %s failed!", buffer);
@@ -96,6 +102,15 @@ char* getEventName() {
 //    }
 //    else return eventNum % 5 + 1;
 //}
+
+char *getEventImportant() {
+    static double important = 0.5;  // 关键事件的概率
+    if (rand() > RAND_MAX * important) return "important=\"1\"";
+    else if (rand() > RAND_MAX * 0.5) {
+        return "important=\"0\"";
+    }
+    else return "";
+}
 
 int getValueNum() {
 //    static int valueNum = -1;
